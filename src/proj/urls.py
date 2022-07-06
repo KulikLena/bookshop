@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from forecast import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('forecast/', views.show_forecast_view),
 ]
