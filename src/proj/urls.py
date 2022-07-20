@@ -20,5 +20,7 @@ from forecast import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('forecast/', views.show_forecast_view),
-    path ('main_page/', views.show_mainpage_view)
+    path ('main_page/', views.show_mainpage_view),
+    path ('book_page/', views.BookPage.as_view()),
+    path ('map_page/', views.MapPage.as_view())
 ]
