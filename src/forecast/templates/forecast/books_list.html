@@ -5,11 +5,11 @@
 </head>
 
 <body>
-<h1> Book Page </h1>
+<h1> Books List </h1>
     <ul>
         {% for book in object_list %}
-        <li><a href="/book/{{book.id}}"></a></li>
-        {% endfor %}
+        <li><a href="/book/">{{book.id}} {{book.name}}</a></li>
+            {% endfor %}
     </ul>
 
 </body>

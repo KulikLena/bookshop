@@ -1,22 +1,22 @@
 from django.db import models
 
-class Book(models.Model):
+class BookInstance(models.Model):
     import datetime
     #There will be placed unique instances of books 
     native_language_book_title = models.CharField(max_length=50)
     first_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
 
     def __str__(self) -> str:
-        return self.native_language_book_title
-    
+       return self.native_language_book_title
+
+
 class Author(models.Model):
+    import datetime
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    birth_date = models.DateField()
-    death_date = models.DateField(blank=True)
+    birth_date = models.DateField(blank=False, default=datetime.date(1, 1, 1))
+    death_date = models.DateField(blank=True,null=True)
     country_of_birth = models.CharField(max_length=50)
-    country_of_work = models.CharField(max_length=50)
-    bibliography = models.ForeignKey(Book,on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
     
     def __str__(self) -> str:
@@ -39,7 +39,7 @@ class Publisher(models.Model):
     def __str__(self) -> str:
         return self.publisher_name
 
-class Series(models.Model):
+class Seria(models.Model):
     series_name = models.CharField(max_length=50)
     puplisher = models.ForeignKey(Publisher,on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
@@ -136,3 +136,16 @@ class Genre(models.Model):
             default=OTHER,
     )
     
+class Book(models.Model):
+     import datetime
+     name = models.CharField(max_length=50)
+     #native_language_book_title = models.ForeignKey(BookInstance,on_delete=models.PROTECT)
+     genre = models.ForeignKey(Genre,on_delete=models.PROTECT)
+     authors = models.ManyToManyField('Author')
+     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+     #seria = models.ForeignKey(Seria, on_delete=models.CASCADE)
+     date_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
+
+
+     def __str__(self) -> str:
+         return self.name

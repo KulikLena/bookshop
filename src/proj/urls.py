@@ -22,5 +22,8 @@ urlpatterns = [
     path('forecast/', views.show_forecast_view),
     path ('main_page/', views.show_mainpage_view),
     path ('book_page/', views.BookPage.as_view()),
-    path ('map_page/', views.MapPage.as_view())
+    path('book/<int:id>/', views.BookDetailView.as_view()),
+    path ('map_page/', views.MapPage.as_view()),
+    
+    
 ]
