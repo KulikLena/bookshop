@@ -1,6 +1,11 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from random import randint
+from forecast import forms
+
+
+from requests import post
 from . import models 
+
 from django.views.generic import TemplateView
 from django.views.generic import ListView
 from django.views.generic import DetailView, CreateView, DeleteView
@@ -21,7 +26,28 @@ def show_mainpage_view(request):
         out += f"<li> Book {bk.id} with native language book title {bk.native_language_book_title} was first published in {bk.first_published} </li>"
     out+='</ul>'
     return HttpResponse('In model Book will be placed unique instances of books in case some books could have several editions in different languages')
-   
+
+def book_add_view(request):
+    if request.method == 'POST':
+        form=forms.AddBookForm(request.POST)
+        if form.is_valid():    
+            
+            book=models.Book.objects.create(
+            genre=form.cleaned_data('genre'),
+            name=form.cleaned_data('name'),
+            authors=form.cleaned_data('authors'),
+            publisher=form.cleaned_data('publisher'),
+            date=form.cleaned_data('date'),
+            description=form.cleaned_data('description'),
+        )
+            return HttpResponseRedirect('book/{book.id}>/')
+        else:
+            print("Form is not valid!") 
+
+
+    elif request.method == 'GET':
+        form = forms.AddBookForm()
+        return render(request='forecast/book_add.html',context={'form':form})
 
 class MapPage(TemplateView):
     template_name='forecast/map.html'
@@ -46,6 +72,7 @@ class BookDetailView(DetailView):
 class BookAdd(CreateView):
     template_name='forecast/book_add.html'
     model=models.Book
+    fields = '__all__'
     def get_success_url(self):
         return f'book/{object.id}'
 

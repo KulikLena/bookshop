@@ -1,3 +1,4 @@
+from random import choices
 from django.db import models
 
 class BookInstance(models.Model):
@@ -20,15 +21,15 @@ class Author(models.Model):
     description = models.TextField(blank=True, null=True)
     
     def __str__(self) -> str:
-        return self.first_name+' '+self.last_name + self.death_status()
+        return self.first_name+' '+self.last_name 
 
-    def death_status(self):
+    #def death_status(self):
         #"Returns the author's eternity status."
-        import datetime
-        if self.death_date < datetime.date(1990, 1, 1):
-            return "Classic"
-        else:
-            return "Contemporary"
+      #  import datetime
+       # if self.death_date() < datetime.date(1990, 1, 1):
+       #     return "Classic"
+        #else:
+        #    return "Contemporary"
 
 
 class Publisher(models.Model):
@@ -39,13 +40,6 @@ class Publisher(models.Model):
     def __str__(self) -> str:
         return self.publisher_name
 
-class Seria(models.Model):
-    series_name = models.CharField(max_length=50)
-    puplisher = models.ForeignKey(Publisher,on_delete=models.PROTECT)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return self.series_name
 
 class Genre(models.Model):
     #NONFICTION
@@ -139,11 +133,9 @@ class Genre(models.Model):
 class Book(models.Model):
      import datetime
      name = models.CharField(max_length=50)
-     #native_language_book_title = models.ForeignKey(BookInstance,on_delete=models.PROTECT)
-     genre = models.ForeignKey(Genre,on_delete=models.PROTECT)
+     genre = models.CharField(choices=Genre.GENRE_CHOICES,max_length=20)
      authors = models.ManyToManyField('Author')
      publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-     #seria = models.ForeignKey(Seria, on_delete=models.CASCADE)
      date_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
 
 

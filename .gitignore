@@ -368,3 +368,6 @@ media/
 
 # databasefile
 db.sqlite3
+
+# env
+env/
