@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from forecast import views
+from reference import views as ref_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,7 +26,8 @@ urlpatterns = [
     path('book/<int:id>/', views.BookDetailView.as_view()),
     path ('map_page/', views.MapPage.as_view()),
     #path ('book_add/', views.book_add_view),
-    
+    #path ('map_page/', views.BookEdit.as_view()),
     path ('book_add/', views.BookAdd.as_view()),
-    
+    path('//ref/auth/<int:id>/', ref_views.AuthorDetail.as_view()),
+    path('//ref/auth/add/', ref_views.AuthorAdd.as_view()),
 ]
