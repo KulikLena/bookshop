@@ -132,11 +132,12 @@ class Genre(models.Model):
     
 class Book(models.Model):
      import datetime
-     name = models.CharField(max_length=50)
+     name = models.CharField(max_length=150)
      genre = models.CharField(choices=Genre.GENRE_CHOICES,max_length=20)
      authors = models.ManyToManyField('Author')
      publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
      date_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
+     description = models.TextField(blank=True, null=True)
 
 
      def __str__(self) -> str:

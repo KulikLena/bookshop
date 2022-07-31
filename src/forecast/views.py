@@ -31,7 +31,6 @@ def book_add_view(request):
     if request.method == 'POST':
         form=forms.AddBookForm(request.POST)
         if form.is_valid():    
-            
             book=models.Book.objects.create(
             genre=form.cleaned_data('genre'),
             name=form.cleaned_data('name'),
@@ -43,6 +42,7 @@ def book_add_view(request):
             return HttpResponseRedirect('book/{book.id}>/')
         else:
             print("Form is not valid!") 
+
 
 
     elif request.method == 'GET':
@@ -63,8 +63,6 @@ class BookPage(ListView):
         context = super().get_context_data(*args, **kwargs)
         return context
 
- # to be elaborated
-
 class BookDetailView(DetailView):
     template_name='forecast/book_view.html'
     model=models.Book
@@ -82,3 +80,4 @@ class DeleteBook(DeleteView):
     model=models.Book
     def get_success_url(self):
         return f'book/{object.id}'
+

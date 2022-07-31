@@ -1,0 +1,28 @@
+{% extends 'reference/base.html' %}
+{% block title %} Item list {% endblock title %}
+{% block head  %} Item list {% endblock head %}
+
+{% block  body %}
+<hr>
+    <h1> Item list </h1>
+<hr>
+    <table class="table table-success table-striped" border="1"> 
+        <tr>
+            <td> name</td>
+            <td> details </td> 
+            <td> description </td>
+        </tr>
+        {% for obj in object_list %}
+        <tr><td> {{obj.id}} {{obj}} </td>
+            <td> <a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a> details </td>
+            <td> {{obj.description}} </td>
+                   
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="      ">
+    </form>
+    {% endblock body %}

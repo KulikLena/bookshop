@@ -13,7 +13,7 @@ class Author(models.Model):
         return self.first_name+' '+self.last_name 
 
 class Publisher(models.Model):
-    publisher_name = models.CharField(max_length=50)
+    publisher_name = models.CharField(blank=False, max_length=50)
     country = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
 

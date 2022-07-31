@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head> Add a book </head>
-<body>
-<h1>Add a book </h1>
+{% extends 'forecast/base.html' %}
+{% block title %} Add a book {% endblock title %}
+{% block head  %} Add a book{% endblock head %}
+
+{% block  body %}
+
 <form action="" method="post">
     {% csrf_token %}
     {{ form }} <br>
     <input type="submit">
-</body>
-</html>
+    
+{% endblock body %}

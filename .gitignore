@@ -371,3 +371,6 @@ db.sqlite3
 
 # env
 env/
+
+# local_vars
+local_vars.py

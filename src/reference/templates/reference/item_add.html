@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends 'reference/base.html' %}
+{% block title %} Item list {% endblock title %}
+{% block head  %} Item list {% endblock head %}
+
+{% block  body %}
+<h1>Add an {{ object.headline }} </h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }} <br>
+    <input type="submit">
+{% endblock body %}
+</html>
