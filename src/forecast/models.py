@@ -1,15 +1,10 @@
+from datetime import datetime
 from random import choices
 from django.db import models
+from django.utils import timezone
 
-class BookInstance(models.Model):
-    import datetime
-    #There will be placed unique instances of books 
-    native_language_book_title = models.CharField(max_length=50)
-    first_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
-
-    def __str__(self) -> str:
-       return self.native_language_book_title
-
+ACTIVE= 'Active'
+INACTIVE= 'Inactive'
 
 class Author(models.Model):
     import datetime
@@ -23,13 +18,13 @@ class Author(models.Model):
     def __str__(self) -> str:
         return self.first_name+' '+self.last_name 
 
-    #def death_status(self):
-        #"Returns the author's eternity status."
-      #  import datetime
-       # if self.death_date() < datetime.date(1990, 1, 1):
-       #     return "Classic"
-        #else:
-        #    return "Contemporary"
+    def death_status(self):
+        "Returns the author's eternity status."
+        import datetime
+        if self.death_date() < datetime.date(1990, 1, 1):
+            return "Classic"
+        else:
+           return "Contemporary"
 
 
 class Publisher(models.Model):
@@ -129,16 +124,88 @@ class Genre(models.Model):
             choices=GENRE_CHOICES,
             default=OTHER,
     )
+    def __str__(self) -> str:
+         return self.genre
+
+
+class Seria(models.Model):
+    name = models.CharField(max_length=50)
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, default='Unknown publisher')
+    description = models.TextField(blank=True, null=True)
     
+    def __str__(self) -> str:
+         return self.name
+
+class Cover(models.Model):
+    HARD = 'Hard cover'
+    SOFT = 'Soft cover'
+    OTHER = 'Other cover'
+    COVER_CHOICES = [(HARD,'Hard cover'),
+            (SOFT,'Soft cover'),
+            (OTHER, 'Other')]
+
+    cover = models.CharField(
+            max_length=20,
+            choices=COVER_CHOICES,
+            default=OTHER,
+    )
+    
+    def __str__(self) -> str:
+         return self.cover
+
+class AgeRestriction (models.Model):
+    NOT_RESTRICTED = 'Without restrictions' 
+    ADULT = '18+'
+    TEENS = '12+'
+    KIDS = '6+'
+    TODDLERS = '1+'
+    AGE_RESTRICT_CHOICES = [
+            (NOT_RESTRICTED,'Without restrictions'),
+            (ADULT,'18+'),
+            (TEENS, '12+'),
+            (KIDS, '6+'),
+            (TODDLERS,'1+')]
+
+    age_restriction = models.CharField(
+            max_length=20,
+            choices=AGE_RESTRICT_CHOICES,
+            default=ADULT,
+    )
+    
+    def __str__(self) -> str:
+         return self.age_restriction
+
+
 class Book(models.Model):
      import datetime
      name = models.CharField(max_length=150)
-     genre = models.CharField(choices=Genre.GENRE_CHOICES,max_length=20)
      authors = models.ManyToManyField('Author')
-     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+     price=models.IntegerField(blank=False, default=10)
+     genre = models.CharField(choices=Genre.GENRE_CHOICES,max_length=120)
+     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, blank=True)
+     #seria=models.ForeignKey(Seria, on_delete=models.CASCADE, blank=True, null=True)
+     pages = models.IntegerField(blank=False, default=0)
+     cover = models.CharField(choices=Cover.COVER_CHOICES, max_length=120, default='Other')
+     format = models.IntegerField(help_text="Please use the following format: width(cm) x length(cm): ", blank=True, null=True)
      date_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
+     isbn = models.CharField(max_length=40, default='000-000-0000-00-0')
+     weight = models.CharField(max_length=40, default='0')
      description = models.TextField(blank=True, null=True)
+     age_restriction = models.CharField(choices=AgeRestriction.AGE_RESTRICT_CHOICES, max_length=402, default='18+')
+     items_available = models.IntegerField(blank=False, default=0)
+     order_status = models.CharField(choices=[(ACTIVE,'Active'), (INACTIVE,'Inactive')], max_length=40, default='Inactive')
+     rate= models.DecimalField(decimal_places=2, max_digits= 3, blank=True, null=True)
+     created = models.DateTimeField(editable=False, default=datetime.datetime.now())
+     modified = models.DateTimeField(default=datetime.datetime.now())
+
+     def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = datetime.datetime.now()
+        self.modified = datetime.datetime.now()
+        return super(Book, self).save(*args, **kwargs)
 
 
      def __str__(self) -> str:
          return self.name
+
+

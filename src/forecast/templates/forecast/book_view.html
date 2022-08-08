@@ -3,7 +3,7 @@
 {% block head  %} {{book.authors.name}} {% endblock head %}
 
 {% block  body %}
-
+<body>
 <h1>{{book.name}}</h1>
 <b> Genre </b> {{book.genre.name}}<br>
 <b> Name </b> {{book.name}}<br>
@@ -11,5 +11,5 @@
 <b> Publisher </b> {{book.publisher.name}}<br>
 <b> Date published </b> {{book.date_published}}<br>
 <b> Description </b> {{book.description}}<br>
-
+</body> 
 {% endblock body %}

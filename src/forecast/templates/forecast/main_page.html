@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends 'reference/base.html' %}
+{% block title %} Store name {% endblock title %}
+{% block head  %} Book store {% endblock head %}
+
+{% block  body %}
+<h1> New arrivals {{ object.headline }} </h1>
+<!--filter on data add-->
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }} <br>
+    <input type="submit" class="btn btn-primary">
+<h1> Bestsellers {{ object.headline }} </h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }} <br>
+    <input type="submit" class="btn btn-primary">
+<h1> Search {{ object.headline }} </h1>
+<!--Search by name or by book.authors.name-->
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }} <br>
+    <input type="submit" class="btn btn-primary">
+{% endblock body %}
+

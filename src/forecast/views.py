@@ -19,13 +19,13 @@ def show_forecast_view(request):
     forecast=PREDICTIONS[randint(0,3)]
     return HttpResponse (f"<h1>{forecast}, {username} </h1>")
 
-def show_mainpage_view(request):
-    out='<ul>'
-    books=models.Book.objects.all()
-    for bk in books: 
-        out += f"<li> Book {bk.id} with native language book title {bk.native_language_book_title} was first published in {bk.first_published} </li>"
-    out+='</ul>'
-    return HttpResponse('In model Book will be placed unique instances of books in case some books could have several editions in different languages')
+#def show_mainpage_view(request):
+#    out='<ul>'
+#    books=models.Book.objects.all()
+#   for bk in books: 
+#       out += f"<li> Book {bk.id}  was first published in {bk.first_published} </li>"
+#   out+='</ul>'
+ #   return HttpResponse('In model Book will be placed unique instances of books in case some books could have several editions in different languages')
 
 def book_add_view(request):
     if request.method == 'POST':
@@ -81,3 +81,5 @@ class DeleteBook(DeleteView):
     def get_success_url(self):
         return f'book/{object.id}'
 
+class MainPage(TemplateView):
+    template_name='forecast/main_page.html'
