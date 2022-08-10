@@ -1,16 +1,12 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from random import randint
 from forecast import forms
-
-
 from requests import post
 from . import models 
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView
+from search_views.search import SearchListView
+from search_views.filters import BaseFilter
 
-from django.views.generic import TemplateView
-from django.views.generic import ListView
-from django.views.generic import DetailView, CreateView, DeleteView
-
-# Create your views here.
 def show_forecast_view(request):
     NAMES = (request.user, 'Nik', 'Mike', 'Rosenkranz', 'Güldenstern') 
     username=NAMES[randint(0,4)]
@@ -27,27 +23,26 @@ def show_forecast_view(request):
 #   out+='</ul>'
  #   return HttpResponse('In model Book will be placed unique instances of books in case some books could have several editions in different languages')
 
-def book_add_view(request):
-    if request.method == 'POST':
-        form=forms.AddBookForm(request.POST)
-        if form.is_valid():    
-            book=models.Book.objects.create(
-            genre=form.cleaned_data('genre'),
-            name=form.cleaned_data('name'),
-            authors=form.cleaned_data('authors'),
-            publisher=form.cleaned_data('publisher'),
-            date=form.cleaned_data('date'),
-            description=form.cleaned_data('description'),
-        )
-            return HttpResponseRedirect('book/{book.id}>/')
-        else:
-            print("Form is not valid!") 
+#def book_add_view(request):
+#    if request.method == 'POST':
+#        form=forms.AddBookForm(request.POST)
+#        if form.is_valid():    
+#            book=models.Book.objects.create(
+#            genre=form.cleaned_data('genre'),
+#            name=form.cleaned_data('name'),
+#            authors=form.cleaned_data('authors'),
+#            publisher=form.cleaned_data('publisher'),
+#            date=form.cleaned_data('date'),
+#            description=form.cleaned_data('description'),
+#        )
+#            return HttpResponseRedirect('book/{book.pk}>/')
+ #       else:
+#            print("Form is not valid!") 
 
 
-
-    elif request.method == 'GET':
-        form = forms.AddBookForm()
-        return render(request='forecast/book_add.html',context={'form':form})
+ #   elif request.method == 'GET':
+  #      form = forms.AddBookForm()
+   #     return render(request='forecast/book_add.html',context={'form':form})
 
 class MapPage(TemplateView):
     template_name='forecast/map.html'
@@ -67,19 +62,59 @@ class BookDetailView(DetailView):
     template_name='forecast/book_view.html'
     model=models.Book
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+
 class BookAdd(CreateView):
     template_name='forecast/book_add.html'
     model=models.Book
     fields = '__all__'
     def get_success_url(self):
-        return f'book/{object.id}'
+        return f'book/{object.pk}'
 
 
 class DeleteBook(DeleteView):
     template_name='forecast/book_delete.html'
     model=models.Book
     def get_success_url(self):
-        return f'book/{object.id}'
+        return f'book/{object.pk}'
 
 class MainPage(TemplateView):
     template_name='forecast/main_page.html'
+    model=models.Book
+    def get_queryset(self):
+        qs=self.model.objects.all()
+        return qs
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
+
+
+class NavBar(TemplateView):
+    template_name='forecast/navbar.html'
+
+class ActorsFilter(BaseFilter):
+    search_fields = {
+        'search_text' : ['name', 'surname'],
+        'search_age_exact' : { 'operator' : '__exact', 'fields' : ['age'] },
+        'search_age_min' : { 'operator' : '__gte', 'fields' : ['age'] },
+        'search_age_max' : { 'operator' : '__lte', 'fields' : ['age'] },  
+    }
+
+class BooksFilter(BaseFilter):
+    search_fields = {
+        'search_text' :'name',
+    
+    }
+
+class BookSearchList(SearchListView):
+  # regular django.views.generic.list.ListView configuration
+  model = models.Book
+  paginate_by = 30
+  template_name = "forecast/book_list.html"
+
+  # additional configuration for SearchListView
+  form_class = forms.BookSearchForm
+  filter_class = BooksFilter

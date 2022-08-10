@@ -16,6 +16,7 @@ class AuthorDetail(DetailView):
 
 class AuthorAdd(CreateView):
     model = models.Author
+    context = {'author': model}
     template_name = 'reference/item_add.html'
     fields = '__all__'
       
@@ -37,6 +38,15 @@ class PublisherAdd(CreateView):
         #reverse_lazy("pub-add", kwargs={'id': self.object.id})
         return f"/ref/pub/add/{self.object.pk}/"
 
+class SeriaAdd(CreateView):
+    model = models.Seria
+    template_name = 'reference/item_add.html'
+    fields = '__all__'
+    
+    def get_success_url(self):
+        #reverse_lazy("pub-add", kwargs={'id': self.object.id})
+        return f"/ref/seria/add/{self.object.pk}/"
+
 class AuthorList(ListView):
     template_name = "reference/item_list.html"
     model = models.Author
@@ -44,3 +54,7 @@ class AuthorList(ListView):
 class PublisherList(ListView):
     template_name = "reference/item_list.html"
     model = models.Publisher
+
+class SeriaList(ListView):
+    template_name = "reference/item_list.html"
+    model = models.Author

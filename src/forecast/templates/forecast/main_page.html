@@ -6,20 +6,46 @@
 {% block  body %}
 <h1> New arrivals {{ object.headline }} </h1>
 <!--filter on data add-->
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }} <br>
-    <input type="submit" class="btn btn-primary">
+<table class="table table-success table-striped" border="1"> 
+    <tr>
+        <td> name</td>
+        <td> details </td> 
+        <td> price </td>
+        <td> description </td>
+    </tr>
+    {% for obj in object_list   %}
+    <tr><td> {{obj.pk}} {{obj.name}} </td>
+        <td> <a href="{{ obj.get_succsess_url }}"> details</a>  </td>
+        <td> {{obj.price}} </td>
+        <td> {{obj.description}} </td>
+    </tr>
+    {% endfor %}
+</table>
 <h1> Bestsellers {{ object.headline }} </h1>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }} <br>
-    <input type="submit" class="btn btn-primary">
+<table class="table table-success table-striped" border="1"> 
+    <tr>
+        <td> name</td>
+        <td> details </td> 
+        <td> price </td>
+        <td> description </td>
+    </tr>
+    {% for obj in object_list   %}
+    <tr><td> {{obj.pk}} {{obj.name}} </td>
+        <td> <a href="{{ obj.get_succsess_url }}"> details</a>  </td>
+        <td> {{obj.price}} </td>
+        <td> {{obj.description}} </td>
+    </tr>
+    {% endfor %}
+</table>
 <h1> Search {{ object.headline }} </h1>
 <!--Search by name or by book.authors.name-->
+    <form method="GET" action="" id="searchform">
+        <input class="searchfield" id="searchbox" name="q" type="text" value="{{ request.GET.q }}" placeholder="Search..."/>
+    </form>
     <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }} <br>
     <input type="submit" class="btn btn-primary">
+    
 {% endblock body %}
 

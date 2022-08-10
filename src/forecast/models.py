@@ -2,40 +2,12 @@ from datetime import datetime
 from random import choices
 from django.db import models
 from django.utils import timezone
+from reference.models import Publisher, Author, Seria
 
 ACTIVE= 'Active'
 INACTIVE= 'Inactive'
 
-class Author(models.Model):
-    import datetime
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    birth_date = models.DateField(blank=False, default=datetime.date(1, 1, 1))
-    death_date = models.DateField(blank=True,null=True)
-    country_of_birth = models.CharField(max_length=50)
-    description = models.TextField(blank=True, null=True)
-    
-    def __str__(self) -> str:
-        return self.first_name+' '+self.last_name 
-
-    def death_status(self):
-        "Returns the author's eternity status."
-        import datetime
-        if self.death_date() < datetime.date(1990, 1, 1):
-            return "Classic"
-        else:
-           return "Contemporary"
-
-
-class Publisher(models.Model):
-    publisher_name = models.CharField(max_length=50)
-    country = models.CharField(max_length=50)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return self.publisher_name
-
-
+ 
 class Genre(models.Model):
     #NONFICTION
     ART = 'Art/architecture'
@@ -127,15 +99,6 @@ class Genre(models.Model):
     def __str__(self) -> str:
          return self.genre
 
-
-class Seria(models.Model):
-    name = models.CharField(max_length=50)
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, default='Unknown publisher')
-    description = models.TextField(blank=True, null=True)
-    
-    def __str__(self) -> str:
-         return self.name
-
 class Cover(models.Model):
     HARD = 'Hard cover'
     SOFT = 'Soft cover'
@@ -179,26 +142,27 @@ class AgeRestriction (models.Model):
 class Book(models.Model):
      import datetime
      name = models.CharField(max_length=150)
-     authors = models.ManyToManyField('Author')
-     price=models.IntegerField(blank=False, default=10)
+     authors = models.ManyToManyField('reference.Author', default='an author')
+     price=models.DecimalField(blank=False, default=10.00, decimal_places=2, max_digits=8)
      genre = models.CharField(choices=Genre.GENRE_CHOICES,max_length=120)
-     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, blank=True)
-     #seria=models.ForeignKey(Seria, on_delete=models.CASCADE, blank=True, null=True)
+     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+     #seria=models.ForeignKey(Seria, on_delete=models.CASCADE, blank=True, null=True, default='a seria')
      pages = models.IntegerField(blank=False, default=0)
      cover = models.CharField(choices=Cover.COVER_CHOICES, max_length=120, default='Other')
-     format = models.IntegerField(help_text="Please use the following format: width(cm) x length(cm): ", blank=True, null=True)
+     format = models.CharField(help_text="Please use the following format: width(cm) x length(cm): ",max_length=5, blank=True, null=True)
      date_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
      isbn = models.CharField(max_length=40, default='000-000-0000-00-0')
-     weight = models.CharField(max_length=40, default='0')
-     description = models.TextField(blank=True, null=True)
+     weight = models.IntegerField(max_length=40, default='0')
      age_restriction = models.CharField(choices=AgeRestriction.AGE_RESTRICT_CHOICES, max_length=402, default='18+')
      items_available = models.IntegerField(blank=False, default=0)
      order_status = models.CharField(choices=[(ACTIVE,'Active'), (INACTIVE,'Inactive')], max_length=40, default='Inactive')
-     rate= models.DecimalField(decimal_places=2, max_digits= 3, blank=True, null=True)
+     rate = models.DecimalField(decimal_places=2, max_digits= 3, blank=True, null=True)
      created = models.DateTimeField(editable=False, default=datetime.datetime.now())
      modified = models.DateTimeField(default=datetime.datetime.now())
+     description = models.TextField(blank=True, null=True)
 
      def save(self, *args, **kwargs):
+        import datetime
         if not self.id:
             self.created = datetime.datetime.now()
         self.modified = datetime.datetime.now()
@@ -207,5 +171,8 @@ class Book(models.Model):
 
      def __str__(self) -> str:
          return self.name
+    
+     def get_absolute_url(self):
+         return f'book/{self.pk}/'
 
 
