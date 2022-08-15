@@ -11,6 +11,7 @@ urlpatterns = [
     path('forecast/', views.show_forecast_view),
     path ('main_page/', views.MainPage.as_view()),
     path ('book_list/', views.BookPage.as_view()),
+    path ('book_search/', views.BookSearch.as_view()),
     path('book/<int:pk>/', views.BookDetailView.as_view()),
     path('book_list/book/<int:pk>/', views.BookDetailView.as_view()),
     path ('main_page/', views.MainPage.as_view()),

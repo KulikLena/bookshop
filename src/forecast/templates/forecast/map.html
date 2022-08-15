@@ -50,17 +50,19 @@
             const client = new tgm.TargomoClient('easterneurope', 'WZMBJFDLR1IVRZUYDR2GTGK1G');
 
             // Coordinates to center the map
-            const center = [53.906387513111106, 27.5157126309162];
+            const center1 = [53.906387513111106, 27.5157126309162];
+            const center2 = [53.93248053570239, 27.60658839503997];
+            const center3 = [53.939622430454385, 27.490669516121578];
             // coordinates
             const tileLayer = new tgm.leaflet.TgmLeafletTileLayer(client, 'Basic');
 
            // define the map
            var map = L.map('map', {
                 layers: [tileLayer]
-            }).setView(center, 11);
+            }).setView(center1, 11);
 
             // define the starting point
-            const sources = [{ id: 0, lat: center[0], lng: center[1] }];
+            const sources = [{ id: 0, lat: center1[0], lng: center1[1] }, { id: 1, lat: center2[0], lng: center2[1] }, { id: 2, lat: center3[0], lng: center3[1] }];
             
             // Add markers for the sources on the map.
             sources.forEach(source => {

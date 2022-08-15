@@ -1,0 +1,19 @@
+{% extends 'reference/base.html' %}
+{% block title %} Books search {% endblock title %}
+{% block head  %} Books search {% endblock head %}
+
+{% block  body %}
+    <form action = '' method = "GET">
+        <div class="input-group">
+            <input name = 'search_query' type="search" class="form-control rounded" placeholder="Search a book" aria-label="Search" aria-describedby="search-addon" width = '20' />
+            <button type="submit" class="btn btn-outline-primary">search</button>
+          </div>
+    </form>
+
+   <h2> Results </h2> 
+   {% for book in object_list%}
+   <a href="{{ book.get_succsess_url }}"> {{book.name}} </a> 
+   {% endfor %}
+
+   {% endblock body %}
+</html>

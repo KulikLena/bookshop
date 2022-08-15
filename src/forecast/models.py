@@ -175,4 +175,6 @@ class Book(models.Model):
      def get_absolute_url(self):
          return f'book/{self.pk}/'
 
+     def get_success_url(self):
+        return f"book/{self.pk}/"
 

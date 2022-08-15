@@ -4,8 +4,7 @@ from forecast import forms
 from requests import post
 from . import models 
 from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView
-from search_views.search import SearchListView
-from search_views.filters import BaseFilter
+
 
 def show_forecast_view(request):
     NAMES = (request.user, 'Nik', 'Mike', 'Rosenkranz', 'Güldenstern') 
@@ -15,39 +14,9 @@ def show_forecast_view(request):
     forecast=PREDICTIONS[randint(0,3)]
     return HttpResponse (f"<h1>{forecast}, {username} </h1>")
 
-#def show_mainpage_view(request):
-#    out='<ul>'
-#    books=models.Book.objects.all()
-#   for bk in books: 
-#       out += f"<li> Book {bk.id}  was first published in {bk.first_published} </li>"
-#   out+='</ul>'
- #   return HttpResponse('In model Book will be placed unique instances of books in case some books could have several editions in different languages')
-
-#def book_add_view(request):
-#    if request.method == 'POST':
-#        form=forms.AddBookForm(request.POST)
-#        if form.is_valid():    
-#            book=models.Book.objects.create(
-#            genre=form.cleaned_data('genre'),
-#            name=form.cleaned_data('name'),
-#            authors=form.cleaned_data('authors'),
-#            publisher=form.cleaned_data('publisher'),
-#            date=form.cleaned_data('date'),
-#            description=form.cleaned_data('description'),
-#        )
-#            return HttpResponseRedirect('book/{book.pk}>/')
- #       else:
-#            print("Form is not valid!") 
-
-
- #   elif request.method == 'GET':
-  #      form = forms.AddBookForm()
-   #     return render(request='forecast/book_add.html',context={'form':form})
-
 class MapPage(TemplateView):
     template_name='forecast/map.html'
     
-
 class BookPage(ListView):
     template_name='forecast/books_list.html'
     model=models.Book
@@ -95,26 +64,17 @@ class MainPage(TemplateView):
 class NavBar(TemplateView):
     template_name='forecast/navbar.html'
 
-class ActorsFilter(BaseFilter):
-    search_fields = {
-        'search_text' : ['name', 'surname'],
-        'search_age_exact' : { 'operator' : '__exact', 'fields' : ['age'] },
-        'search_age_min' : { 'operator' : '__gte', 'fields' : ['age'] },
-        'search_age_max' : { 'operator' : '__lte', 'fields' : ['age'] },  
-    }
+class BookSearch(ListView):
+    template_name='forecast/books_search.html'
+    model=models.Book
+    def get_queryset(self):
+        q=self.request.GET.get('search_query')
+        if q: 
+            qs = self.model.objects.filter(name__contains = q)
+        else: 
+            qs = []
+        return qs
 
-class BooksFilter(BaseFilter):
-    search_fields = {
-        'search_text' :'name',
-    
-    }
-
-class BookSearchList(SearchListView):
-  # regular django.views.generic.list.ListView configuration
-  model = models.Book
-  paginate_by = 30
-  template_name = "forecast/book_list.html"
-
-  # additional configuration for SearchListView
-  form_class = forms.BookSearchForm
-  filter_class = BooksFilter
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
