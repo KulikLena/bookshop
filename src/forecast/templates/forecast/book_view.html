@@ -5,11 +5,21 @@
 {% block  body %}
 <body>
 <h1>{{book.name}}</h1>
-<b> Genre </b> {{book.genre.name}}<br>
+<b> Content </b> {{book.content}}<br>
+<b> Genre </b> {{book.genre}}<br>
 <b> Name </b> {{book.name}}<br>
-<b> Author(s) </b> {{book.authors.name}}<br>
-<b> Publisher </b> {{book.publisher.name}}<br>
+<b> Author(s) </b> {{book.authors}}<br>
+<b> Publisher </b> {{book.publisher}}<br>
 <b> Date published </b> {{book.date_published}}<br>
+<b> Pages </b> {{book.pages}}<br>
+<b> Cover </b> {{book.cover}}<br>
+<b> Format </b> {{book.format}}<br>
+<b> ISBN </b> {{book.isbn}}<br>
+<b> Weight </b> {{book.weight}}<br>
+<b> Age restriction </b> {{book.age_restriction}}<br>
+<b> Items available </b> {{book.items_available}}<br>
+<b> Order status </b> {{book.order_status}}<br>
+<b> Rate </b> {{book.rate}}<br>
 <b> Description </b> {{book.description}}<br>
 </body> 
 {% endblock body %}

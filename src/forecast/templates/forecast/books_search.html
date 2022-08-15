@@ -12,8 +12,8 @@
 
    <h2> Results </h2> 
    {% for book in object_list%}
-   <a href="{{ book.get_succsess_url }}"> {{book.name}} </a> 
+   <a href="{{ book.get_absolute_url }}"> {{book.name}} </a> 
    {% endfor %}
 
    {% endblock body %}
-</html>
+

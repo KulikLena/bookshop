@@ -13,7 +13,16 @@ class Author(models.Model):
         return self.first_name+' '+self.last_name 
 
     def get_absolute_url(self):
-      return f'ref/auth/add/{self.pk}/'
+      return "%i/" % self.id
+      
+
+    def death_status(self):
+    #"Returns the author's eternity status."
+      import datetime
+      if self.death_date() < datetime.date(1990, 1, 1):
+            return "Classic"
+      else:
+           return "Contemporary"
 
 class Publisher(models.Model):
     publisher_name = models.CharField(blank=False, max_length=50)
@@ -24,7 +33,7 @@ class Publisher(models.Model):
         return self.publisher_name
 
     def get_absolute_url(self):
-      return f'ref/pub/add/{self.pk}/'
+        return "%i/" % self.id
 
 class Seria(models.Model):
     name = models.CharField(max_length=50)
@@ -35,4 +44,4 @@ class Seria(models.Model):
          return self.name
 
     def get_absolute_url(self):
-      return f'ref/pub/add/{self.pk}/'
+         return "seria/%i/" % self.id

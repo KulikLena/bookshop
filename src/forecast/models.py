@@ -173,8 +173,8 @@ class Book(models.Model):
          return self.name
     
      def get_absolute_url(self):
-         return f'book/{self.pk}/'
+         return "/book/%i/" % self.id
 
      def get_success_url(self):
-        return f"book/{self.pk}/"
+        return f"book/%i/" %self.id
 

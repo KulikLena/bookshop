@@ -16,7 +16,6 @@ class AuthorDetail(DetailView):
 
 class AuthorAdd(CreateView):
     model = models.Author
-    context = {'author': model}
     template_name = 'reference/item_add.html'
     fields = '__all__'
       
@@ -36,7 +35,7 @@ class PublisherAdd(CreateView):
     
     def get_success_url(self):
         #reverse_lazy("pub-add", kwargs={'id': self.object.id})
-        return f"/ref/pub/add/{self.object.pk}/"
+        return "/pub/%i/" % self.id
 
 class SeriaAdd(CreateView):
     model = models.Seria

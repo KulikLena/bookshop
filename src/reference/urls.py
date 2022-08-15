@@ -4,10 +4,11 @@ from django.urls import path
 from reference import views
 
 urlpatterns = [
-    path('auth/add/<int:pk>/', views.AuthorDetail.as_view(),name="auth-det" ),
-    path('auth/add/', views.AuthorAdd.as_view(), name="auth-add"),
-    path('auth/list/', views.AuthorList.as_view(), name="auth-list"),
-    path('pub/add/<int:pk>/', views.PublisherDetail.as_view(), name="pub-det"),
-    path('pub/add/', views.PublisherAdd.as_view(), name="pub-add"),
-    path('pub/list/', views.PublisherList.as_view(), name="pub-list"),
+    path('auth/add/<int:pk>/', views.AuthorDetail.as_view() ),
+    path('auth/add/', views.AuthorAdd.as_view()),
+    path('auth/list/<int:pk>/', views.AuthorDetail.as_view()),
+    path('auth/list/', views.AuthorList.as_view()),
+    path('pub/add/<int:pk>/', views.PublisherDetail.as_view()),
+    path('pub/add/', views.PublisherAdd.as_view()),
+    path('pub/list/', views.PublisherList.as_view()),
 ]

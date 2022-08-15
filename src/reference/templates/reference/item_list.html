@@ -14,15 +14,11 @@
         </tr>
         {% for obj in object_list %}
         <tr><td> {{obj.id}} {{obj}} </td>
-            <td> <a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a> details </td>
+            <td> <a href="{{ obj.get_absolute_url }}"> details </a>  </td>
             <td> {{obj.description}} </td>
                    
         </tr>
         {% endfor %}
     </table>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="      ">
-    </form>
+
     {% endblock body %}

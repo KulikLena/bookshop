@@ -50,7 +50,7 @@ class DeleteBook(DeleteView):
     def get_success_url(self):
         return f'book/{object.pk}'
 
-class MainPage(TemplateView):
+class MainPage(ListView):
     template_name='forecast/main_page.html'
     model=models.Book
     def get_queryset(self):

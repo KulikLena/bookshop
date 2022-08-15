@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'forecast',
-    'reference'
+    'reference', 
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 
@@ -122,9 +124,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #STATICFILES_DIRS = [
     #BASE_DIR / "static"
 #]
+
 STATICFILES_DIRS = (
      os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 STATIC_URL = '/static/'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"

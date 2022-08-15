@@ -3,7 +3,7 @@
 {% block head  %} Books list {% endblock head %}
 
 {% block  body %}
-<body>
+
 <table class="table table-success table-striped" border="1"> 
     <tr>
         <td> name</td>
@@ -13,13 +13,13 @@
     </tr>
     {% for obj in object_list %}
     <tr><td> {{obj.pk}} {{obj.name}} </td>
-        <td> <a href="{{ obj.get_succsess_url }}"> details</a>  </td>
+        <td> <a href="{{ obj.get_absolute_url }}"> <i class="bi bi-info-square-fill"></i> </a>  </td>
         <td> {{obj.price}} </td>
         <td> {{obj.description}} </td>
             
     </tr>
     {% endfor %}
 </table>
-</body> 
+
 {% endblock body %}
 </html>

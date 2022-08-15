@@ -6,9 +6,12 @@
 <body>
     <h1>{{ object.headline }}</h1>
     <p>{{ object.content }}</p>
-    </body> 
+    <span class='lead'>{{ object.lead }} </span>
+    <div class='body'>{{ object.body|safe }} </div>
+</body> 
 {% endblock body %}
 </html>
+
 
 
 
