@@ -3,9 +3,9 @@
 {% block head  %} {{book.authors.name}} {% endblock head %}
 
 {% block  body %}
-<body>
+
 <h1>{{book.name}}</h1>
-<b> Content </b> {{book.content}}<br>
+<b> {{book.content}}<br>
 <b> Genre </b> {{book.genre}}<br>
 <b> Name </b> {{book.name}}<br>
 <b> Author(s) </b> {{book.authors}}<br>
@@ -21,5 +21,23 @@
 <b> Order status </b> {{book.order_status}}<br>
 <b> Rate </b> {{book.rate}}<br>
 <b> Description </b> {{book.description}}<br>
-</body> 
+<div class = "card" style = "width: 18rem;"> 
+    <div class = "card-body">
+        <h5 class = "card-title"> {{book.name}} {{book.authors}} </h5>
+        <p class = "card-text"> {{book.price}} BYN</p>
+        <form action = "{% url 'order:add_to_cart'%}" method = "post" >
+            {% csrf_token%}
+            <input = "hidden" name = "book_id" value = '1'>
+            <form>
+                <div class="form-row align-items-center">
+                  <div class="col-auto my-1">
+                    <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect" >Items</label>
+                </div>
+                    <div class="col-auto my-1" value = "1" >
+                    <input type="submit" class="btn btn-primary" value = "Add to Cart"> 
+                  </div>
+                </div>
+              </form>
+
+
 {% endblock body %}

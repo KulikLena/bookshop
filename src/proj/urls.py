@@ -19,5 +19,6 @@ urlpatterns = [
     #path ('book_add/', views.book_add_view),
     #path ('map_page/', views.BookEdit.as_view()),
     path ('book_add/', views.BookAdd.as_view()),
-    path('ref/', include(('reference.urls', 'reference'), namespace ='ref'))
+    path('ref/', include(('reference.urls', 'reference'), namespace ='ref')),
+    path('order/', include('order.urls', namespace ='order'))
 ]
