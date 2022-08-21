@@ -1,0 +1,16 @@
+{% extends 'reference/base.html' %}
+{% block title %} Books list {% endblock title %}
+{% block header  %} Cart {% endblock header %}
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }} <br>
+    <input type="submit" class="btn btn-primary">
+
+{% endblock body %}
+
+
+
+
+

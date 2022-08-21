@@ -1,0 +1,23 @@
+{% extends 'reference/base.html' %}
+{% block title %} Bestsellers {% endblock title %}
+{% block header  %}  {% endblock header %}
+{% block  body %}
+<h1 class="nav-item"> Bestsellers {{ object.headline }} </h1>
+<!--filter on data add-->
+<table class="table table-bordered table-dark" > 
+    <tr>
+        <td> name</td>
+        <td> details </td> 
+        <td> price </td>
+        <td> description </td>
+    </tr>
+    {% for obj in object_list|slice:":3"%}
+    <tr><td> {{obj.pk}} {{obj.name}} </td>
+        <td> <a href="/book/{{obj.id}}"> Details </a>  </td>
+        <td> {{obj.price}} </td>
+        <td> {{obj.description}} </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock body %}
+

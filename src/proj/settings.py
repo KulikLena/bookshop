@@ -28,10 +28,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'forecast',
     'reference', 
     "crispy_forms",
     "crispy_bootstrap5",
+    'order'
 ]
 
 

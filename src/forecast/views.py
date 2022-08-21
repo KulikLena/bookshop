@@ -78,3 +78,33 @@ class BookSearch(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         return context
+
+class NewArrivals(ListView):
+    template_name='forecast/new_arrivals.html'
+    model=models.Book
+    def get_queryset(self):
+        qs=self.model.objects.all()
+        return qs
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
+
+class Bestsellers(ListView):
+    template_name='forecast/bestsellers.html'
+    model=models.Book
+    def get_queryset(self):
+        qs=self.model.objects.all()
+        return qs
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
+
+class Catalogue(ListView):
+    template_name='forecast/catalogue.html'
+    model=models.Book
+    def get_queryset(self):
+        qs=self.model.objects.all()
+        return qs
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context

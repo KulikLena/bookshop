@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
+{% extends 'forecast/base.html' %}
+{% block title %} Catchment Area {% endblock title %}
+{% block header %} Catchment Area {% endblock header %}
 
+{% block  body %}
+<h5 class="p-3 mb-2 bg-dark text-white"> This map shows 5-10-15 min travel times by CAR for delivery/pickup  </h5>
 <head>
     <!--  Include leaflet javascript and css -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" >
@@ -54,12 +59,26 @@
             const center2 = [53.93248053570239, 27.60658839503997];
             const center3 = [53.939622430454385, 27.490669516121578];
             // coordinates
-            const tileLayer = new tgm.leaflet.TgmLeafletTileLayer(client, 'Basic');
+            const tileLayer = new tgm.leaflet.TgmLeafletTileLayer(client, 'Dark');
 
            // define the map
            var map = L.map('map', {
                 layers: [tileLayer]
             }).setView(center1, 11);
+            map.locate({setView: true, maxZoom: 16});
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+                console.log(position);
+                console.log(position.coords.latitude)
+                console.log(position.coords.longitude)
+                var marker = L.marker([position.coords.latitude,position.coords.longitude]).addTo(map);
+                marker.bindTooltip("You are here", 
+                {
+                    permanent: true, 
+                    direction: 'right'
+                }
+            );
+                })
 
             // define the starting point
             const sources = [{ id: 0, lat: center1[0], lng: center1[1] }, { id: 1, lat: center2[0], lng: center2[1] }, { id: 2, lat: center3[0], lng: center3[1] }];
@@ -104,11 +123,25 @@
             // zoom to the polygon bounds
              map.fitBounds(new L.latLngBounds(bounds.northEast, bounds.southWest));
         }
-
+        var x = document.getElementById("demo");
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+        }
+        
+        function showPosition(position) {
+          x.innerHTML = "Latitude: " + position.coords.latitude +
+          "<br>Longitude: " + position.coords.longitude;
+        }
+       
         initMap()
 
     </script>
+ 
 </body>
-
+{% endblock body %}
 </html>  
             

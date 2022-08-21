@@ -5,7 +5,7 @@
 
 {% block  body %}
 
-<form action="" method="post">
+<form action="" method="post"  class="p-3 mb-2 bg-dark text-white">
     {% csrf_token %}
     {{ form | crispy }} <br>
     <input type="submit" class="btn btn-primary">

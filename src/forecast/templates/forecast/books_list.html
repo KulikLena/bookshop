@@ -7,13 +7,15 @@
 <table class="table table-success table-striped" border="1"> 
     <tr>
         <td> name</td>
+        <td> cover </td>
         <td> details </td> 
         <td> price </td>
         <td> description </td>
     </tr>
     {% for obj in object_list %}
     <tr><td> {{obj.pk}} {{obj.name}} </td>
-        <td> <a href="{{ obj.get_absolute_url }}"> <i class="bi bi-info-square-fill"></i> </a>  </td>
+        <td> <img src="{{obj.image}}"> </td>
+        <td> <a href="{{ obj.get_absolute_url }}"> <i class="bi bi-info-square-fill"> </i> </a>  </td>
         <td> {{obj.price}} </td>
         <td> {{obj.description}} </td>
             
@@ -22,4 +24,4 @@
 </table>
 
 {% endblock body %}
-</html>
+

@@ -1,4 +1,5 @@
 from datetime import datetime
+from email.policy import default
 from random import choices
 from django.db import models
 from django.utils import timezone
@@ -143,7 +144,8 @@ class Book(models.Model):
      import datetime
      name = models.CharField(max_length=150)
      authors = models.ManyToManyField('reference.Author', default='an author')
-     price=models.DecimalField(blank=False, default=10.00, decimal_places=2, max_digits=8)
+     image = models.ImageField(upload_to='src/static/imagination', height_field=None, width_field=None, max_length=100, default= "img.jpeg")
+     price = models.DecimalField(verbose_name = "price", blank=False, default=10.00, decimal_places=2, max_digits=8)
      genre = models.CharField(choices=Genre.GENRE_CHOICES,max_length=120)
      publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
      #seria=models.ForeignKey(Seria, on_delete=models.CASCADE, blank=True, null=True, default='a seria')
@@ -152,7 +154,7 @@ class Book(models.Model):
      format = models.CharField(help_text="Please use the following format: width(cm) x length(cm): ",max_length=5, blank=True, null=True)
      date_published = models.DateField(blank=False, default=datetime.date(1990, 1, 1))
      isbn = models.CharField(max_length=40, default='000-000-0000-00-0')
-     weight = models.IntegerField(max_length=40, default='0')
+     weight = models.IntegerField(default='0')
      age_restriction = models.CharField(choices=AgeRestriction.AGE_RESTRICT_CHOICES, max_length=402, default='18+')
      items_available = models.IntegerField(blank=False, default=0)
      order_status = models.CharField(choices=[(ACTIVE,'Active'), (INACTIVE,'Inactive')], max_length=40, default='Inactive')
@@ -176,5 +178,5 @@ class Book(models.Model):
          return "/book/%i/" % self.id
 
      def get_success_url(self):
-        return f"book/%i/" %self.id
+        return f"/book/%i/" %self.id
 

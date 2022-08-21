@@ -3,7 +3,7 @@
 {% block head  %} {{book.authors.name}} {% endblock head %}
 
 {% block  body %}
-
+<img src='{{book.image}}' class="rounded float-end" >
 <h1>{{book.name}}</h1>
 <b> {{book.content}}<br>
 <b> Genre </b> {{book.genre}}<br>
@@ -21,21 +21,21 @@
 <b> Order status </b> {{book.order_status}}<br>
 <b> Rate </b> {{book.rate}}<br>
 <b> Description </b> {{book.description}}<br>
-<div class = "card" style = "width: 18rem;"> 
+<div class="p-3 mb-2 bg-dark text-white"style = "width: 18rem;"> 
     <div class = "card-body">
-        <h5 class = "card-title"> {{book.name}} {{book.authors}} </h5>
-        <p class = "card-text"> {{book.price}} BYN</p>
-        <form action = "{% url 'order:add_to_cart'%}" method = "post" >
+        <h5 class = "card-title"> {{book.name}} {{book.authors.name}} </h5>
+        <p class = "card-text" name = "price"> {{book.price}} BYN</p>
+        <form action = "{% url 'order:add_to_cart' %}" method = "get" >
             {% csrf_token%}
-            <input = "hidden" name = "book_id" value = '1'>
-            <form>
-                <div class="form-row align-items-center">
-                  <div class="col-auto my-1">
-                    <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect" >Items</label>
+            <input type = "hidden" name = "book_id" value ={{object.pk}}>
+                <div class="form-group-row">
+                  <div class="col-md-8">
+                    <input type="number" class="form-control" name = "quantity" min='1' max = '100' step = '1'> 
                 </div>
+                    <div class="col-md-4">
                     <div class="col-auto my-1" value = "1" >
-                    <input type="submit" class="btn btn-primary" value = "Add to Cart"> 
-                  </div>
+                        <input type="submit" class="btn btn-primary" value = "Add to Cart">
+                    </div>
                 </div>
               </form>
 
