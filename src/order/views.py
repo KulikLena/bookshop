@@ -1,6 +1,6 @@
 from unicodedata import decimal, name
 from django.shortcuts import render
-from django.views.generic import TemplateView, DeleteView, DetailView, CreateView
+from django.views.generic import TemplateView, DeleteView, DetailView, CreateView, FormView
 from . models import Cart, BookInCart, Order
 from forecast.models import Book
 from django.http import HttpResponseRedirect
@@ -73,16 +73,23 @@ class UpdateCart(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def contact(request):
+        form = forms.UserInfoForm()
+        return render(request,
+          'order/cart.html',
+          {'form': form})
         
     def render_to_response(self, context, **response_kwargs):
         action_type = self.request.GET.get('action_type')
         if action_type == 'order':
-            return HttpResponseRedirect('/main_page/')
+            return HttpResponseRedirect('/main_page/thanks/')
         return super().render_to_response(context, **response_kwargs)
 
     def get_object(self, **kwargs):
         cart =  get_cart(self)
         book_price = 10.05
+        form = forms.UserInfoForm
         for good in self.request.GET.keys():
             if good[:5] == "good_":
                 good_in_cart_pk= int(good.split("__")[1])
@@ -94,12 +101,22 @@ class UpdateCart(DetailView):
         if action_type == 'order':
             order = Order.objects.create(
                     cart = book_in_cart.cart, 
-                    name = "Lena",
-                    telephone = "+375 44 776 77 55",
-                    address = "Minsk",
-                    desired_delivery_time = '10am - 5pm'
+                    name = self.request.GET.get("name"),
+                    telephone=self.request.GET.get("telephone"),
+                    address=self.request.GET.get("address"),
+                    #desired_delivery_time =self.request.GET.get("desired_delivery_time"),
                 )
             self.request.session.delete('cart')
 
         return cart
 
+def contact(request):
+    form = forms.UserInfoForm()
+    return render(request,
+        'order/info.html',
+        {'form': form})
+
+class ContactFormView(FormView):
+    template_name = 'order/info.html'
+    form_class = forms.UserInfoForm
+    success_url = 'history.back()'

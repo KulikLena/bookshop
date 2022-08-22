@@ -23,5 +23,7 @@ urlpatterns = [
     path ('bestsellers/', views.Bestsellers.as_view()),
     path ('catalogue/', views.Catalogue.as_view()),
     path('ref/', include(('reference.urls', 'reference'), namespace ='ref')),
-    path('order/', include('order.urls', namespace ='order'))
+    path('order/', include('order.urls', namespace ='order')), 
+    path ('main_page/thanks/', views.MainPageThanks.as_view()),
+   
 ]

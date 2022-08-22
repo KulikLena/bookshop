@@ -27,13 +27,15 @@
     <td>{{cart.total_price}} </td>
 </tr>
 </table>
-
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }} <br>
-    <input type="submit" class="btn btn-primary">
-
-
+<hr>
+<h5> Enter your credentials </h5>
+<h6> Your name </h6>
+<input type="text" class="form-control me-3" placeholder="Name" name="name" id=""><br>
+<h6> Contact number </h6>
+<input type="text" class="form-control me-2" placeholder="Contact number" name="telephone" id=""><br>
+<h6> Address </h6>
+<input type="text" class="form-control me-2" placeholder="Address" name="address" id=""><br>
+ <hr>
 <input type = "submit" name = "action_type" value = "update" class = 'btn btn-success'>
 <input type = "submit" name = "action_type" value = "order" class = 'btn btn-warning'>
 </form>

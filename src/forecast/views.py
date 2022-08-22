@@ -60,6 +60,15 @@ class MainPage(ListView):
         context = super().get_context_data(*args, **kwargs)
         return context
 
+class MainPageThanks(ListView):
+    template_name='forecast/main_page_thanks.html'
+    model=models.Book
+    def get_queryset(self):
+        qs=self.model.objects.all()
+        return qs
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
 
 class NavBar(TemplateView):
     template_name='forecast/navbar.html'

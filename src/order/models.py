@@ -79,9 +79,9 @@ class Order (models.Model):
     name = models.CharField(max_length=150, null = False, default='John Doe')
     telephone = models.CharField(max_length=17, default='+375-00-000-00-00', null = False)
     address=models.CharField(max_length=140, null = False, default='somewhere' )
-    desired_delivery_time=models.CharField(max_length=140,
-       choices=[(MORNING,'10am - 5pm'), (EVENING, '5pm - 10pm')],
-       blank=True)
+    #desired_delivery_time=models.CharField(max_length=140,
+     #  choices=[(MORNING,'10am - 5pm'), (EVENING, '5pm - 10pm')],
+      # blank=True)
 
 
     
